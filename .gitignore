@@ -1,0 +1,6 @@
+.DS_Store
+keyGen/*
+keys/*
+.idea/*
+logs/*
+vginstance

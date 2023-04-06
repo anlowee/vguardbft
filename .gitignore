@@ -4,3 +4,4 @@ keys/*
 .idea/*
 logs/*
 vginstance
+.vscode

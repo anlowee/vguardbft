@@ -6,28 +6,32 @@ const defaultCenter = {
   lng: -80.493500
 };
 
+const ranchPosition = { lat: 43.645152, lng: -79.374808 }
+const farmPosition = { lat: 42.969881, lng: -81.245908 }
+const canneryPosition = { lat: 42.954596, lng: -79.855055 }
+
 const ranch2FarmPath = [
-  { lat: 43.645152, lng: -79.374808 },
+  ranchPosition,
   { lat: 43.440998, lng: -80.488945 },
-  { lat: 42.969881, lng: -81.245908 },
+  farmPosition,
 ].reduce(reducePath, []);
 
 const farm2RanchPath = [
-  { lat: 42.969881, lng: -81.245908 },
+  farmPosition,
   { lat: 43.440998, lng: -80.488945 },
-  { lat: 43.645152, lng: -79.374808 },
+  ranchPosition,
 ].reduce(reducePath, []);
 
 const farm2CanneryPath = [
-  { lat: 42.969881, lng: -81.245908 },
+  farmPosition,
   { lat: 42.868654, lng: -80.308678 },
-  { lat: 42.954596, lng: -79.855055 },
+  canneryPosition,
 ].reduce(reducePath, []);
 
 const ranch2CanneryPath = [
-  { lat: 43.645152, lng: -79.374808 },
+  ranchPosition,
   { lat: 43.248315, lng: -79.886457 },
-  { lat: 42.954596, lng: -79.855055 },
+  canneryPosition,
 ].reduce(reducePath, []);
 
 const defaultZoom= 8;
@@ -130,24 +134,36 @@ function Map() {
 
   const markers = [];
   for (let i = 0; i < 3; i++) {
-    markers.push(<Maps.Marker key={i} position={getPositionAt(ranch2FarmPath, trucksFromRanchToFarm[i])} />);
+    markers.push(
+      <Maps.Marker
+        key={i}
+        position={getPositionAt(ranch2FarmPath, trucksFromRanchToFarm[i])}
+        onClick={() => { console.log('clicked'); }}
+      />
+    );
     markers.push(<Maps.Marker key={i + 3} position={getPositionAt(farm2RanchPath, trucksFromFarmToRanch[i])} />);
     markers.push(<Maps.Marker key={i + 6} position={getPositionAt(farm2CanneryPath, trucksFromFarmToCannery[i])} />);
     markers.push(<Maps.Marker key={i + 9} position={getPositionAt(ranch2CanneryPath, trucksFromRanchToCannery[i])} />);
   }
 
   return (
-    <Maps
-      provider="google"
-      height={400}
-      defaultCenter={defaultCenter}
-      defaultZoom={defaultZoom}
-    >
-      { markers }
-      <Maps.Polyline path={ranch2CanneryPath} strokeColor="#fc0a08" />
-      <Maps.Polyline path={farm2CanneryPath} strokeColor="#0868fc" />
-      <Maps.Polyline path={ranch2FarmPath} strokeColor="#fc9c08" />
-    </Maps>
+    <div className="Map">
+      <Maps
+        provider="google"
+        height='100vh'
+        width='100vw'
+        defaultCenter={defaultCenter}
+        defaultZoom={defaultZoom}
+      >
+        {/*<Maps.Popup position={ranchPosition}>*/}
+        {/*  <div>Ranch</div>*/}
+        {/*</Maps.Popup>*/}
+        { markers }
+        <Maps.Polyline path={ranch2CanneryPath} strokeColor="#fc0a08" />
+        <Maps.Polyline path={farm2CanneryPath} strokeColor="#0868fc" />
+        <Maps.Polyline path={ranch2FarmPath} strokeColor="#fc9c08" />
+      </Maps>
+    </div>
   );
 }
 export default Map;

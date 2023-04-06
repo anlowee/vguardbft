@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useState} from "react";
 import Maps, {computeDistance, interpolate} from "react-maps-suite";
 
 const defaultCenter = {
-  lat: 43.394452,
-  lng: -80.493500
+  lat: 43.141096,
+  lng: -80.261403
 };
 
 const ranchPosition = { lat: 43.645152, lng: -79.374808 }
@@ -34,7 +34,7 @@ const ranch2CanneryPath = [
   canneryPosition,
 ].reduce(reducePath, []);
 
-const defaultZoom= 8;
+const defaultZoom= 9;
 
 function getPositionAt(path, distance) {
   const indexesPassed = path.filter((position) => position.distance < distance);
@@ -132,13 +132,17 @@ function Map() {
     }
   }, [time]);
 
+  const [showPopup, setShowPopup] = useState(false);
+  const handleClicked = useCallback(() => {
+    setShowPopup(true);
+  }, []);
   const markers = [];
   for (let i = 0; i < 3; i++) {
     markers.push(
       <Maps.Marker
         key={i}
         position={getPositionAt(ranch2FarmPath, trucksFromRanchToFarm[i])}
-        onClick={() => { console.log('clicked'); }}
+        onClick={handleClicked}
       />
     );
     markers.push(<Maps.Marker key={i + 3} position={getPositionAt(farm2RanchPath, trucksFromFarmToRanch[i])} />);
@@ -147,22 +151,19 @@ function Map() {
   }
 
   return (
-    <div className="Map">
+    <div>
       <Maps
         provider="google"
-        height='100vh'
-        width='100vw'
+        height='90vh'
         defaultCenter={defaultCenter}
         defaultZoom={defaultZoom}
       >
-        {/*<Maps.Popup position={ranchPosition}>*/}
-        {/*  <div>Ranch</div>*/}
-        {/*</Maps.Popup>*/}
         { markers }
         <Maps.Polyline path={ranch2CanneryPath} strokeColor="#fc0a08" />
         <Maps.Polyline path={farm2CanneryPath} strokeColor="#0868fc" />
         <Maps.Polyline path={ranch2FarmPath} strokeColor="#fc9c08" />
       </Maps>
+      <div style={{height: '10vh'}}>Ranch to Farm</div>
     </div>
   );
 }

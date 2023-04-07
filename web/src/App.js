@@ -16,6 +16,8 @@ function App() {
     case "/database":
       component = <Database />
       break
+    default:
+      component = <Home />
   }
   return (
     <div className="App">

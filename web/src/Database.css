@@ -1,0 +1,70 @@
+body {
+    background-image: url("bg.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.database-page {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.left-column {
+    flex: 1;
+    padding: 30px;
+}
+
+.left-column .form-group {
+    padding: ;
+    margin-bottom: 20px;
+}
+
+.left-column label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.right-column {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.right-column table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.right-column th,
+.right-column td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #5a3737;
+}
+
+.right-column th {
+    background-color: #f7f5f5;
+}
+
+
+
+.right-column tr:nth-child(odd) td {
+    background-color: rgba(218, 63, 63, 0.5);
+}
+
+.right-column tr:nth-child(even) td {
+    background-color: rgba(200, 126, 126, 0.5);
+}

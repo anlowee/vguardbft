@@ -32,13 +32,6 @@ const defaultCenter = {
 };
 const defaultZoom= 9;
 
-const defaultBooths = [
-  [-1, -1, -1],
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [9, 10, 11],
-]
 const defaultTruckInfo = [
   {
     truckNumber: 0,
@@ -53,28 +46,6 @@ const defaultTruckInfo = [
   },
   {
     truckNumber: 1,
-    cargoType: 'Manure',
-    cargoAmount: 2000,
-    fromAddr: 'Ranch',
-    toAddr: 'Farm',
-    boothIndex: 1,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 2,
-    cargoType: 'Manure',
-    cargoAmount: 1500,
-    fromAddr: 'Ranch',
-    toAddr: 'Farm',
-    boothIndex: 1,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 3,
     cargoType: 'Corn',
     cargoAmount: 10000,
     fromAddr: 'Farm',
@@ -85,29 +56,7 @@ const defaultTruckInfo = [
     isBooked: false,
   },
   {
-    truckNumber: 4,
-    cargoType: 'Corn',
-    cargoAmount: 7000,
-    fromAddr: 'Farm',
-    toAddr: 'Ranch',
-    boothIndex: 2,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 5,
-    cargoType: 'Corn',
-    cargoAmount: 12000,
-    fromAddr: 'Farm',
-    toAddr: 'Ranch',
-    boothIndex: 2,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 6,
+    truckNumber: 2,
     cargoType: 'Pineapple',
     cargoAmount: 5000,
     fromAddr: 'Farm',
@@ -118,29 +67,7 @@ const defaultTruckInfo = [
     isBooked: false,
   },
   {
-    truckNumber: 7,
-    cargoType: 'Pineapple',
-    cargoAmount: 5500,
-    fromAddr: 'Farm',
-    toAddr: 'Cannery',
-    boothIndex: 3,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 8,
-    cargoType: 'Pineapple',
-    cargoAmount: 6000,
-    fromAddr: 'Farm',
-    toAddr: 'Cannery',
-    boothIndex: 3,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 9,
+    truckNumber: 3,
     cargoType: 'Meat',
     cargoAmount: 1000,
     fromAddr: 'Ranch',
@@ -150,28 +77,6 @@ const defaultTruckInfo = [
     progress: '0%',
     isBooked: false,
   },
-  {
-    truckNumber: 10,
-    cargoType: 'Meat',
-    cargoAmount: 1500,
-    fromAddr: 'Ranch',
-    toAddr: 'Cannery',
-    boothIndex: 4,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 11,
-    cargoType: 'Meat',
-    cargoAmount: 2000,
-    fromAddr: 'Ranch',
-    toAddr: 'Cannery',
-    boothIndex: 4,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  }
 ]
 
 function getProgress(path, distance) {
@@ -256,17 +161,15 @@ function Map() {
   }, [increaseTime]);
 
   useEffect(() => {
-    for (let i = 0; i < 3; i++) {
-      const speedOfTruckFromRanchToFarm = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-      const speedOfTruckFromFarmToRanch = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-      const speedOfTruckFromFarmToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-      const speedOfTruckFromRanchToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+    const speedOfTruckFromRanchToFarm = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+    const speedOfTruckFromFarmToRanch = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+    const speedOfTruckFromFarmToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+    const speedOfTruckFromRanchToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
 
-      updateTruck(i, trucks[i]['distance'] + speedOfTruckFromRanchToFarm, getProgress(ranch2FarmPath, trucks[i]['distance'] + speedOfTruckFromRanchToFarm) );
-      updateTruck(i + 3, trucks[i + 3]['distance'] + speedOfTruckFromFarmToRanch, getProgress(farm2RanchPath, trucks[i + 3]['distance'] + speedOfTruckFromFarmToRanch) );
-      updateTruck(i + 6, trucks[i + 6]['distance'] + speedOfTruckFromFarmToCannery, getProgress(farm2CanneryPath, trucks[i + 6]['distance'] + speedOfTruckFromFarmToCannery) );
-      updateTruck(i + 9, trucks[i + 9]['distance'] + speedOfTruckFromRanchToCannery, getProgress(ranch2CanneryPath, trucks[i + 9]['distance'] + speedOfTruckFromRanchToCannery) );
-    }
+    updateTruck(0, trucks[0]['distance'] + speedOfTruckFromRanchToFarm, getProgress(ranch2FarmPath, trucks[0]['distance'] + speedOfTruckFromRanchToFarm) );
+    updateTruck(1, trucks[1]['distance'] + speedOfTruckFromFarmToRanch, getProgress(farm2RanchPath, trucks[1]['distance'] + speedOfTruckFromFarmToRanch) );
+    updateTruck(2, trucks[2]['distance'] + speedOfTruckFromFarmToCannery, getProgress(farm2CanneryPath, trucks[2]['distance'] + speedOfTruckFromFarmToCannery) );
+    updateTruck(3, trucks[3]['distance'] + speedOfTruckFromRanchToCannery, getProgress(ranch2CanneryPath, trucks[3]['distance'] + speedOfTruckFromRanchToCannery) );
   }, [time]);
 
   const [currentTruck, setCurrentTruck] = useState({
@@ -285,33 +188,31 @@ function Map() {
   }, []);
 
   const markers = [];
-  for (let i = 0; i < 3; i++) {
-    markers.push(
-      <Maps.Marker
-        key={i}
-        position={getPositionAt(ranch2FarmPath, trucks[i]['distance'])}
-        onClick={ () => handleClicked(i) }
-      />
-    );
-    markers.push(
-      <Maps.Marker
-        key={i + 3}
-        position={getPositionAt(farm2RanchPath, trucks[i]['distance'])}
-        onClick={ () => handleClicked(i + 3) }
-      />);
-    markers.push(
-      <Maps.Marker
-        key={i + 6}
-        position={getPositionAt(farm2CanneryPath, trucks[i]['distance'])}
-        onClick={ () => handleClicked(i + 6) }
-      />);
-    markers.push(
-      <Maps.Marker
-        key={i + 9}
-        position={getPositionAt(ranch2CanneryPath, trucks[i]['distance'])}
-        onClick={ () => handleClicked(i + 9) }
-      />);
-  }
+  markers.push(
+    <Maps.Marker
+      key={0}
+      position={getPositionAt(ranch2FarmPath, trucks[0]['distance'])}
+      onClick={ () => handleClicked(0) }
+    />
+  );
+  markers.push(
+    <Maps.Marker
+      key={1}
+      position={getPositionAt(farm2RanchPath, trucks[1]['distance'])}
+      onClick={ () => handleClicked(1) }
+    />);
+  markers.push(
+    <Maps.Marker
+      key={2}
+      position={getPositionAt(farm2CanneryPath, trucks[2]['distance'])}
+      onClick={ () => handleClicked(2) }
+    />);
+  markers.push(
+    <Maps.Marker
+      key={3}
+      position={getPositionAt(ranch2CanneryPath, trucks[3]['distance'])}
+      onClick={ () => handleClicked(3) }
+    />);
 
   return (
     <div>
@@ -328,16 +229,6 @@ function Map() {
       </Maps>
       <div style={{height: '10vh'}}>
         <b>Truck #:</b> {currentTruck.truckNumber}&nbsp;<b>Cargo Type:</b> {currentTruck.cargoType}&nbsp;<b>Cargo Amount:</b> {currentTruck.cargoAmount}&nbsp;<b>From:</b> {currentTruck.fromAddr}&nbsp;<b>To:</b> {currentTruck.toAddr}&nbsp;<b>Progress:</b> {currentTruck.progress}&nbsp;<b>Is booked:</b> {currentTruck.isBooked ? 'Yes' : 'No'}
-        <br /><b>Current Booth:</b>&nbsp;{
-        defaultBooths[currentTruck.boothIndex].map((booth, index) => {
-          return (
-            <span key={index}>
-              truck#{booth}
-              {index !== defaultBooths[currentTruck.boothIndex].length - 1 ? ', ' : ''}
-            </span>
-          );
-        })
-      }
       </div>
     </div>
   );

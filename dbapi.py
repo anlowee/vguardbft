@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+import queue
 
 today = datetime.datetime.now().strftime("%x")
 
@@ -157,6 +158,9 @@ class TransactoinDB:
         CargoAmount: int = 0,
         FromAddr: str = "",
         ToAddr: str = "",
+        BoothIndex: int = 0,
+        Distance: float = 0.0,
+        Progress: float = 0.0,
         ETA: str = today,
         IsBooked: bool = False,
     ):
@@ -167,7 +171,16 @@ class TransactoinDB:
         except:
             print("Tx already exists!")
         self.cargo.save_entity(
-            ID, CargoType, CargoAmount, FromAddr, ToAddr, ETA, IsBooked
+            ID,
+            CargoType,
+            CargoAmount,
+            FromAddr,
+            ToAddr,
+            BoothIndex,
+            Distance,
+            Progress,
+            ETA,
+            IsBooked,
         )
 
     def DeletePerm(self, tx: str):
@@ -220,19 +233,54 @@ class DB_handler:
         CargoAmount: int = 0,
         FromAddr: str = "",
         ToAddr: str = "",
+        BoothIndex: int = 0,
+        Distance: float = 0.0,
+        Progress: float = 0.0,
         ETA: str = today,
         IsBooked: bool = False,
     ):
         self.waitToSumit.put(
-            (ID, CargoType, CargoAmount, FromAddr, ToAddr, ETA, IsBooked)
+            (
+                ID,
+                CargoType,
+                CargoAmount,
+                FromAddr,
+                ToAddr,
+                BoothIndex,
+                Distance,
+                Progress,
+                ETA,
+                IsBooked,
+            )
         )
         self.commit()
 
     def MoveToPerm(self, ID: str):
-        ID, CargoType, CargoAmount, FromAddr, ToAddr, ETA, IsBooked = self.txdict[ID][0]
+        (
+            ID,
+            CargoType,
+            CargoAmount,
+            FromAddr,
+            ToAddr,
+            BoothIndex,
+            Distance,
+            Progress,
+            ETA,
+            IsBooked,
+        ) = self.txdict[ID][0]
         tx = self.txdict[ID][1]
         self.txdb.MoveToPerm(
-            tx, ID, CargoType, CargoAmount, FromAddr, ToAddr, ETA, IsBooked
+            tx,
+            ID,
+            CargoType,
+            CargoAmount,
+            FromAddr,
+            ToAddr,
+            BoothIndex,
+            Distance,
+            Progress,
+            ETA,
+            IsBooked,
         )
 
     def DeletePerm(self, ID: str):
@@ -241,4 +289,5 @@ class DB_handler:
 
 
 if __name__ == "__main__":
+    DB = CargoDB()
     print(DB.query_all())

@@ -223,6 +223,15 @@ function Map() {
         defaultZoom={defaultZoom}
       >
         { markers }
+        <Maps.Popup position={ranchPosition}>
+          Ranch
+        </Maps.Popup>
+        <Maps.Popup position={farmPosition}>
+          Farm
+        </Maps.Popup>
+        <Maps.Popup position={canneryPosition}>
+          Cannery
+        </Maps.Popup>
         <Maps.Polyline path={ranch2CanneryPath} strokeColor="#fc0a08" />
         <Maps.Polyline path={farm2CanneryPath} strokeColor="#0868fc" />
         <Maps.Polyline path={ranch2FarmPath} strokeColor="#fc9c08" />

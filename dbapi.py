@@ -122,6 +122,12 @@ class CargoDB:
         query_results = self.db_c.fetchall()
         return query_results
 
+    def query_all(self):
+        sentence = "SELECT * FROM cargo"
+        self.db_c.execute(sentence)
+        query_results = self.db_c.fetchall()
+        return query_results
+
     def close(self):
         self.conn.close()
         self.conn = None
@@ -135,7 +141,7 @@ class TransactoinDB:
         c.execute(
             """
             CREATE TABLE IF NOT EXISTS tx
-            ([Tx] TEXT, [CargoType] TEXT,
+            ([Tx] TEXT, [ID] TEXT,
             PRIMARY KEY(Tx))
             """
         )
@@ -172,11 +178,11 @@ class TransactoinDB:
         except:
             print("Tx does not exist!")
         query_results = query_results[0]
-        CargoType = query_results[1]
+        ID = query_results[1]
         sentence = "DELETE FROM tx WHERE Tx='{}' ".format(tx)
         self.db_c.execute(sentence)
         self.conn.commit()
-        self.cargo.delete_entity(CargoType)
+        self.cargo.delete_entity(ID)
 
 
 class DB_handler:
@@ -235,5 +241,4 @@ class DB_handler:
 
 
 if __name__ == "__main__":
-    DB = CargoDB()
     print(DB.query_all())

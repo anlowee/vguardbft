@@ -4,7 +4,7 @@ from flask_socketio import SocketIO
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-# db = CargoDB()
+db = CargoDB()
 
 
 @socketio.on("add_cargo")
@@ -22,9 +22,15 @@ def handle_add_cargo(data):
             data["ETA"],
             data["IsBooked"],
         )
+        print("Added!!!!!!")
+        print(data)
 
-        # emit the "query_all" event to refresh the data
-        socketio.emit("query_all")
+        # query the database to get the updated list of items
+        items = db.query_all()
+        print(items)
+
+        # emit the updated list of items to the UI
+        socketio.emit("query_all_result", {"result": "success", "data": items})
 
         return {"result": "success"}
     except ValueError:
@@ -91,5 +97,4 @@ def handle_query_all():
 
 
 if __name__ == "__main__":
-    db = CargoDB()
     socketio.run(app, port=8000, debug=True)

@@ -21,6 +21,7 @@ function Database() {
                 console.log("!!!!!")
                 if (data.result === "success") {
                     // Update the "items" state with the received data
+                    console.log(data.data)
                     setItems(data.data);
                 } else {
                     console.log("Error:", data.message);
@@ -37,15 +38,15 @@ function Database() {
         event.preventDefault();
         const newItem = {
             ID: event.target.id.value,
-            CargoType: event.target.att1.value,
-            CargoAmount: event.target.att2.value,
-            FromAddr: event.target.att1.value,
-            ToAddr: event.target.att2.value,
-            BoothIndex: event.target.att1.value,
-            Distance: event.target.att2.value,
-            Progress: event.target.att1.value,
-            ETA: event.target.att2.value,
-            IsBooked: event.target.att2.value,
+            CargoType: event.target.CargoType.value,
+            CargoAmount: event.target.CargoAmount.value,
+            FromAddr: event.target.FromAddr.value,
+            ToAddr: event.target.ToAddr.value,
+            BoothIndex: event.target.BoothIndex.value,
+            Distance: event.target.Distance.value,
+            Progress: event.target.Progress.value,
+            ETA: event.target.ETA.value,
+            IsBooked: event.target.IsBooked.value,
         };
 
         // emit the "add_cargo" event with the form data
@@ -54,6 +55,7 @@ function Database() {
         // clear the input fields
         event.target.reset();
     };
+
 
     const handleDeleteItem = () => {
         // emit the "delete_cargo" event with the ID of the item to be deleted
@@ -137,18 +139,18 @@ function Database() {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.ID}</td>
-                                <td>{item.CargoType}</td>
-                                <td>{item.CargoAmount}</td>
-                                <td>{item.FromAddr}</td>
-                                <td>{item.ToAddr}</td>
-                                <td>{item.BoothIndex}</td>
-                                <td>{item.Distance}</td>
-                                <td>{item.Progress}</td>
-                                <td>{item.ETA}</td>
-                                <td>{item.IsBooked}</td>
+                        {items.map((item) => (
+                            <tr key={item[0]}>
+                                <td>{item[0]}</td>
+                                <td>{item[1]}</td>
+                                <td>{item[2]}</td>
+                                <td>{item[3]}</td>
+                                <td>{item[4]}</td>
+                                <td>{item[5]}</td>
+                                <td>{item[6]}</td>
+                                <td>{item[7]}</td>
+                                <td>{item[8]}</td>
+                                <td>{item[9]}</td>
                             </tr>
                         ))}
                     </tbody>

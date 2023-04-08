@@ -64,8 +64,8 @@ def handle_delete_cargo(data):
             data["ID"],
         )
 
-        # emit the "query_all" event to refresh the data
-        socketio.emit("query_all")
+        # emit the updated list of items to the UI
+        socketio.emit("query_all_result", {"result": "success", "data": items})
 
         return {"result": "success"}
     except ValueError:

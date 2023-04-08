@@ -1,35 +1,57 @@
 body {
-    background-image: url("bg.jpeg");
+    font-family: Arial, sans-serif;
+    background: url("bg.jpeg") no-repeat center fixed;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 100%;
-    width: 100%;
     margin: 0;
     padding: 0;
 }
 
 .database-page {
     display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-section {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin-top: 20px;
 }
 
 .left-column {
     flex: 1;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Add this line */
+}
+
+.submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .left-column .form-group {
-    padding: ;
+    padding: 5px;
     margin-bottom: 20px;
 }
 
 .left-column label {
-    display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -39,7 +61,7 @@ body {
     padding: 30px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .right-column table {
@@ -59,12 +81,86 @@ body {
     background-color: #f7f5f5;
 }
 
-
-
 .right-column tr:nth-child(odd) td {
     background-color: rgba(218, 63, 63, 0.5);
 }
 
 .right-column tr:nth-child(even) td {
     background-color: rgba(200, 126, 126, 0.5);
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-half {
+    width: calc(50% - 10px);
+}
+
+.delete-item-section {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.delete-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+.button-container {
+    display: flex;
+    align-items: center;
+    width: calc(50% - 10px);
+}
+
+
+.form-quarter {
+    width: calc(25% - 10px);
+}
+
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input[type="text"] {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    /* Add this line */
+}
+
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #00bfff;
 }

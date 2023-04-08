@@ -4,9 +4,10 @@ import queue
 
 today = datetime.datetime.now().strftime("%x")
 
+
 class CargoDB:
     def __init__(self) -> None:
-        self.conn = sqlite3.connect("vguard.db")
+        self.conn = sqlite3.connect("vguard.db", check_same_thread=False)
         c = self.conn.cursor()
         c.execute(
             """
@@ -104,8 +105,8 @@ class CargoDB:
         except:
             print("Item does not exist.")
 
-    def query(self, ID: str):
-        sentence = "SELECT * FROM cargo WHERE ID='{}'".format(ID)
+    def query_core(self, item_name: str, content):
+        sentence = f"SELECT * FROM cargo WHERE {item_name}='{content}'"
         try:
             self.db_c.execute(sentence)
             query_results = self.db_c.fetchall()
@@ -114,7 +115,10 @@ class CargoDB:
         if len(query_results) == 0:
             print("Item does not exist!")
             raise ValueError
-        return query_results[0]
+        return query_results
+
+    def query(self, ID: str):
+        return self.query_core("ID", ID)[0]
 
     def query_all(self):
         sentence = "SELECT * FROM cargo"
@@ -122,11 +126,11 @@ class CargoDB:
         query_results = self.db_c.fetchall()
         return query_results
 
-    def query_all(self):
-        sentence = "SELECT * FROM cargo"
-        self.db_c.execute(sentence)
-        query_results = self.db_c.fetchall()
-        return query_results
+    def filter_FromAddr(self, FromAddr: str):
+        return self.query_core("FromAddr", FromAddr)
+
+    def filter_ToAddr(self, ToAddr: str):
+        return self.query_core("ToAddr", ToAddr)
 
     def close(self):
         self.conn.close()

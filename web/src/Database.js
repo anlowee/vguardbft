@@ -1,8 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { io } from "socket.io-client"
 import './Database.css';
 
 function Database() {
+    const socket = io("http://localhost:8000", {
+        transports: ["websocket"],
+    });
     const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            console.log("Before EMIT!")
+            socket.emit("query_all");
+            console.log("Send query_all to backend!")
+
+            // Listen for the "query_all_result" event from the server
+            socket.on("query_all_result", (data) => {
+                console.log(data.result)
+                console.log("!!!!!")
+                if (data.result === "success") {
+                    // Update the "items" state with the received data
+                    setItems(data.data);
+                } else {
+                    console.log("Error:", data.message);
+                }
+            });
+
+            console.log("After the listening")
+            // Clean up the socket connection when the component unmounts
+            return () => socket.close();
+        }, 1000);
+    }, []);
 
     const handleAddItem = (event) => {
         event.preventDefault();
@@ -69,9 +97,9 @@ function Database() {
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index}>
-                                <td>{item.id}</td>
-                                <td>{item.att1}</td>
-                                <td>{item.att2}</td>
+                                <td>{item.ID}</td>
+                                <td>{item.CargoType}</td>
+                                <td>{item.CargoAmount}</td>
                             </tr>
                         ))}
                     </tbody>

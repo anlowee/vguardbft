@@ -4,7 +4,7 @@ from flask_socketio import SocketIO
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-db = CargoDB()
+# db = CargoDB()
 
 
 @socketio.on("add_cargo")
@@ -71,12 +71,19 @@ def handle_query_cargo(data):
 
 @socketio.on("query_all")
 def handle_query_all():
+    print("Received the signal!!!!", flush=True)
     try:
         items = db.query_all()
+        print("Query successful")
+        socketio.emit("query_all_result", {"result": "success", "data": items})
     except ValueError:
-        return {"result": "error", "messgae": "Illegal input!"}
-    return items
+        socketio.emit(
+            "query_all_result", {"result": "error", "message": "Illegal input!"}
+        )
+
+    socketio.start_background_task(target=query_all)
 
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=8000)
+    db = CargoDB()
+    socketio.run(app, port=8000, debug=True)

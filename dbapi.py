@@ -22,6 +22,10 @@ def handle_add_cargo(data):
             data["ETA"],
             data["IsBooked"],
         )
+
+        # emit the "query_all" event to refresh the data
+        socketio.emit("query_all")
+
         return {"result": "success"}
     except ValueError:
         return {"result": "error", "messgae": "Illegal input!"}
@@ -53,6 +57,10 @@ def handle_delete_cargo(data):
         db.delete_entity(
             data["ID"],
         )
+
+        # emit the "query_all" event to refresh the data
+        socketio.emit("query_all")
+
         return {"result": "success"}
     except ValueError:
         return {"result": "error", "messgae": "Illegal input!"}
@@ -80,8 +88,6 @@ def handle_query_all():
         socketio.emit(
             "query_all_result", {"result": "error", "message": "Illegal input!"}
         )
-
-    socketio.start_background_task(target=query_all)
 
 
 if __name__ == "__main__":

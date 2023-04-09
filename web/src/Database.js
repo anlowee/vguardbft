@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useCallback} from "react";
 import { io } from "socket.io-client"
 import './Database.css';
-import { TruckState } from "./Map";
 
-function Database() {
-    const { trucks, setTrucks } = TruckState();
+function Database( props) {
+    const { trucks, setTrucks } = props;
 
     const socket = io("http://localhost:8000", {
         transports: ["websocket"],
@@ -12,25 +11,6 @@ function Database() {
     const [items, setItems] = useState([]);
     const [deleteID, setDeleteID] = useState("");
 
-    const debugHandleAddItem = useCallback(() => {
-        setTrucks([...trucks, {
-            truckNumber: 5,
-            cargoType: "Milk",
-            cargoAmount: 1000,
-            fromAddr: 'Farm',
-            toAddr: 'Ranch',
-            boothIndex: -1,
-            distance: 0,
-            progress: '0%',
-            isBooked: true,
-        }]);
-        console.log(trucks)
-    }, [])
-
-    useEffect(() => {
-        console.log(trucks)
-        console.log("After debug")
-    }, [trucks])
 
     useEffect(() => {
         setTimeout(() => {
@@ -57,8 +37,7 @@ function Database() {
         }, 1000);
     }, []);
 
-    const handleAddItem = (event) => {
-        const { trucks, setTrucks } = TruckState();
+    const handleAddItem = useCallback((event) => {
         event.preventDefault();
         const newItem = {
             ID: event.target.id.value,
@@ -74,7 +53,7 @@ function Database() {
         };
         setTrucks(trucks => {
             const truck = {
-                truckNumber: newItem.ID,
+                truckNumber: parseInt(newItem.ID),
                 cargoType: newItem.CargoType,
                 cargoAmount: newItem.CargoAmount,
                 fromAddr: newItem.FromAddr,
@@ -92,17 +71,18 @@ function Database() {
 
         // clear the input fields
         event.target.reset();
-    };
+    }, [trucks]);
 
 
-    const handleDeleteItem = (event) => {
+    const handleDeleteItem = useCallback((event) => {
         event.preventDefault();
+        setTrucks(trucks.filter(truck => truck.truckNumber !== parseInt(event.target.deleteID.value)));
         // emit the "delete_cargo" event with the ID of the item to be deleted
         socket.emit("delete_cargo", { ID: event.target.deleteID.value });
 
         // Reset the input box
         setDeleteID("");
-    };
+    }, [trucks]);
 
     return (
         <div className="database-page">
@@ -145,7 +125,6 @@ function Database() {
             </div>
             <div className="bottom-section">
                 <div className="left-column">
-                    <h2 onClick={ () => debugHandleAddItem() }>Debug Add Item</h2>
                     {/* Add Item form code */}
                     <h2>Add Item</h2>
                     <form onSubmit={handleAddItem} className="form">

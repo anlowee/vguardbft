@@ -31,54 +31,6 @@ const defaultCenter = {
   lng: -80.261403
 };
 const defaultZoom= 9;
-
-const defaultTruckInfo = [
-  {
-    truckNumber: 0,
-    cargoType: 'Manure',
-    cargoAmount: 3000,
-    fromAddr: 'Ranch',
-    toAddr: 'Farm',
-    boothIndex: 1,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 1,
-    cargoType: 'Corn',
-    cargoAmount: 10000,
-    fromAddr: 'Farm',
-    toAddr: 'Ranch',
-    boothIndex: 2,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 2,
-    cargoType: 'Pineapple',
-    cargoAmount: 5000,
-    fromAddr: 'Farm',
-    toAddr: 'Cannery',
-    boothIndex: 3,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-  {
-    truckNumber: 3,
-    cargoType: 'Meat',
-    cargoAmount: 1000,
-    fromAddr: 'Ranch',
-    toAddr: 'Cannery',
-    boothIndex: 4,
-    distance: 0,
-    progress: '0%',
-    isBooked: false,
-  },
-]
-
 function getProgress(path, distance) {
   const indexesPassed = path.filter((position) => position.distance < distance);
   if (indexesPassed.length === 0) {
@@ -164,8 +116,8 @@ function getPath(fromAddr, toAddr) {
 
 function Map( props ) {
   const { trucks, setTrucks } = props;
+  console.log('trucks', trucks)
   const updateTruck = useCallback((truckNumber, distance, progress) => {
-    console.log('updateTruck', truckNumber, distance, progress);
     setTrucks(trucks => {
       const truck = trucks.find(truck => truck.truckNumber === truckNumber);
       truck.distance = distance;
@@ -206,9 +158,10 @@ function Map( props ) {
     isBooked: false,
   });
   const handleClicked = useCallback((index) => {
+    console.log(index)
     setCurrentTruck(trucks[index]);
     console.log(trucks[index]);
-  }, []);
+  }, [trucks, currentTruck]);
 
   const [markersV2, setMarkersV2] = useState([]);
   const updateMarkers = useCallback(() => {
@@ -227,12 +180,6 @@ function Map( props ) {
   useEffect(() => {
     updateMarkers();
   }, [trucks]);
-
-  // const debugHandler = useCallback(() => {
-  //   console.log("clicked!");
-  //   setCount(count + 1);
-  //   updateCount(count);
-  // }, [count]);
 
   return (
     <div>
@@ -258,7 +205,6 @@ function Map( props ) {
       </Maps>
       <div style={{height: '10vh'}}>
         <b>Truck #:</b> {currentTruck.truckNumber}&nbsp;<b>Cargo Type:</b> {currentTruck.cargoType}&nbsp;<b>Cargo Amount:</b> {currentTruck.cargoAmount}&nbsp;<b>From:</b> {currentTruck.fromAddr}&nbsp;<b>To:</b> {currentTruck.toAddr}&nbsp;<b>Progress:</b> {currentTruck.progress}&nbsp;<b>Is booked:</b> {currentTruck.isBooked ? 'Yes' : 'No'}
-        {/*<br /><h2 onClick={ () => debugHandler() }>Debug Add Item</h2>*/}
       </div>
     </div>
   );

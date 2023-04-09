@@ -116,10 +116,18 @@ body {
 
 .button-container {
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(25% - 10px);
+    margin-right: 10px;
+}
+
+
+.button-container1 {
+    display: flex;
     align-items: center;
     width: calc(50% - 10px);
 }
-
 
 .form-quarter {
     width: calc(25% - 10px);

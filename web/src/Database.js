@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { io } from "socket.io-client"
 import './Database.css';
 
-function Database( props) {
+function Database(props) {
     const { trucks, setTrucks } = props;
 
     const socket = io("http://localhost:8000", {
         transports: ["websocket"],
     });
     const [items, setItems] = useState([]);
-    const [deleteID, setDeleteID] = useState("");
+    // const [deleteID, setDeleteID] = useState("");
 
 
     useEffect(() => {
@@ -45,9 +45,9 @@ function Database( props) {
             CargoAmount: event.target.CargoAmount.value,
             FromAddr: event.target.FromAddr.value,
             ToAddr: event.target.ToAddr.value,
-            BoothIndex: event.target.BoothIndex.value,
-            Distance: event.target.Distance.value,
-            Progress: event.target.Progress.value,
+            // BoothIndex: event.target.BoothIndex.value,
+            // Distance: event.target.Distance.value,
+            // Progress: event.target.Progress.value,
             ETA: event.target.ETA.value,
             IsBooked: event.target.IsBooked.value,
         };
@@ -80,8 +80,11 @@ function Database( props) {
         // emit the "delete_cargo" event with the ID of the item to be deleted
         socket.emit("delete_cargo", { ID: event.target.deleteID.value });
 
-        // Reset the input box
-        setDeleteID("");
+        // // Reset the input box
+        // setDeleteID("");
+
+        // clear the input fields
+        event.target.reset();
     }, [trucks]);
 
     return (
@@ -97,9 +100,9 @@ function Database( props) {
                                 <th>CargoAmount</th>
                                 <th>FromAddr</th>
                                 <th>ToAddr</th>
-                                <th>BoothIndex</th>
+                                {/* <th>BoothIndex</th>
                                 <th>Distance</th>
-                                <th>Progress</th>
+                                <th>Progress</th> */}
                                 <th>ETA</th>
                                 <th>IsBooked</th>
                             </tr>
@@ -112,9 +115,9 @@ function Database( props) {
                                     <td>{item[2]}</td>
                                     <td>{item[3]}</td>
                                     <td>{item[4]}</td>
-                                    <td>{item[5]}</td>
+                                    {/* <td>{item[5]}</td>
                                     <td>{item[6]}</td>
-                                    <td>{item[7]}</td>
+                                    <td>{item[7]}</td> */}
                                     <td>{item[8]}</td>
                                     <td>{item[9]}</td>
                                 </tr>
@@ -148,7 +151,7 @@ function Database( props) {
                             <label htmlFor="ToAddr">To Address:</label>
                             <input type="text" name="ToAddr" maxLength="8" placeholder="To Address" required />
                         </div>
-                        <div className="form-group form-quarter">
+                        {/* <div className="form-group form-quarter">
                             <label htmlFor="BoothIndex">Booth Index:</label>
                             <input type="text" name="BoothIndex" maxLength="8" placeholder="Booth Index" required />
                         </div>
@@ -159,7 +162,7 @@ function Database( props) {
                         <div className="form-group form-quarter">
                             <label htmlFor="Progress">Progress:</label>
                             <input type="text" name="Progress" maxLength="8" placeholder="Progress" required />
-                        </div>
+                        </div> */}
                         <div className="form-group form-quarter">
                             <label htmlFor="ETA">ETA:</label>
                             <input type="text" name="ETA" maxLength="8" placeholder="ETA" required />
@@ -181,7 +184,7 @@ function Database( props) {
                         <label htmlFor="deleteID">Cargo ID:</label>
                         <input type="text" name="deleteID" maxLength="8" placeholder="Cargo ID" required />
                     </div>
-                    <div className="button-container">
+                    <div className="button-container1">
                         <button type="submit">Delete Item</button>
                     </div>
                 </form>

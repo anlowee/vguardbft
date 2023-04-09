@@ -4,6 +4,8 @@ Contributors: Dixi Yao, Kai Shen, Xiaochong Wei
 
 ## Introduction
 
+Supply chains move products/services from origin to consumer through sourcing, manufacturing, packaging, transportation, and distribution. The tracking of goods and services is critical to identify bottlenecks and inefficiencies, ensure timely delivery, maintain customer satisfaction, improve security, and comply with regulations. By monitoring the movement of products or services, companies can optimize their operations, mitigate potential risks such as theft or fraud, and gain valuable insights into their supply chain.
+
 We propose a solution for tracking goods and services in supply chain system by using V-Guard, which is designed for V2X network and can fit well for supply chain since trucks are main transportation power of the system.
 
 ## Features

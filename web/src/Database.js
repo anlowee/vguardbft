@@ -1,13 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import { io } from "socket.io-client"
 import './Database.css';
+import { TruckState } from "./Map";
 
 function Database() {
+    const { trucks, setTrucks } = TruckState();
+
     const socket = io("http://localhost:8000", {
         transports: ["websocket"],
     });
     const [items, setItems] = useState([]);
     const [deleteID, setDeleteID] = useState("");
+
+    const debugHandleAddItem = useCallback(() => {
+        setTrucks([...trucks, {
+            truckNumber: 5,
+            cargoType: "Milk",
+            cargoAmount: 1000,
+            fromAddr: 'Farm',
+            toAddr: 'Ranch',
+            boothIndex: -1,
+            distance: 0,
+            progress: '0%',
+            isBooked: true,
+        }]);
+        console.log(trucks)
+    }, [])
+
+    useEffect(() => {
+        console.log(trucks)
+        console.log("After debug")
+    }, [trucks])
 
     useEffect(() => {
         setTimeout(() => {
@@ -35,6 +58,7 @@ function Database() {
     }, []);
 
     const handleAddItem = (event) => {
+        const { trucks, setTrucks } = TruckState();
         event.preventDefault();
         const newItem = {
             ID: event.target.id.value,
@@ -48,6 +72,20 @@ function Database() {
             ETA: event.target.ETA.value,
             IsBooked: event.target.IsBooked.value,
         };
+        setTrucks(trucks => {
+            const truck = {
+                truckNumber: newItem.ID,
+                cargoType: newItem.CargoType,
+                cargoAmount: newItem.CargoAmount,
+                fromAddr: newItem.FromAddr,
+                toAddr: newItem.ToAddr,
+                boothIndex: -1,
+                distance: 0,
+                progress: '0%',
+                isBooked: newItem.IsBooked,
+            }
+            return [...trucks, truck];
+        })
 
         // emit the "add_cargo" event with the form data
         socket.emit("add_cargo", newItem);
@@ -107,6 +145,7 @@ function Database() {
             </div>
             <div className="bottom-section">
                 <div className="left-column">
+                    <h2 onClick={ () => debugHandleAddItem() }>Debug Add Item</h2>
                     {/* Add Item form code */}
                     <h2>Add Item</h2>
                     <form onSubmit={handleAddItem} className="form">

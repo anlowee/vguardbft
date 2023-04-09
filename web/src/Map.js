@@ -137,8 +137,42 @@ function reducePath(result, item, index, array) {
   return result;
 }
 
-function Map() {
+function getPath(fromAddr, toAddr) {
+  switch (fromAddr) {
+    case 'Ranch':
+      switch (toAddr) {
+        case 'Farm':
+          return ranch2FarmPath;
+        case 'Cannery':
+          return ranch2CanneryPath;
+        default:
+          return [];
+      }
+    case 'Farm':
+      switch (toAddr) {
+        case 'Ranch':
+          return farm2RanchPath;
+        case 'Cannery':
+          return farm2CanneryPath;
+        default:
+          return [];
+      }
+    default:
+      return [];
+  }
+}
+
+export const TruckState = () => {
   const [trucks, setTrucks] = useState(defaultTruckInfo);
+
+  return {
+    trucks,
+    setTrucks,
+  };
+};
+
+function Map() {
+  const { trucks, setTrucks } = TruckState();
   const updateTruck = useCallback((truckNumber, distance, progress) => {
     setTrucks(trucks => {
       const truck = trucks.find(truck => truck.truckNumber === truckNumber);
@@ -161,15 +195,11 @@ function Map() {
   }, [increaseTime]);
 
   useEffect(() => {
-    const speedOfTruckFromRanchToFarm = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-    const speedOfTruckFromFarmToRanch = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-    const speedOfTruckFromFarmToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-    const speedOfTruckFromRanchToCannery = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-
-    updateTruck(0, trucks[0]['distance'] + speedOfTruckFromRanchToFarm, getProgress(ranch2FarmPath, trucks[0]['distance'] + speedOfTruckFromRanchToFarm) );
-    updateTruck(1, trucks[1]['distance'] + speedOfTruckFromFarmToRanch, getProgress(farm2RanchPath, trucks[1]['distance'] + speedOfTruckFromFarmToRanch) );
-    updateTruck(2, trucks[2]['distance'] + speedOfTruckFromFarmToCannery, getProgress(farm2CanneryPath, trucks[2]['distance'] + speedOfTruckFromFarmToCannery) );
-    updateTruck(3, trucks[3]['distance'] + speedOfTruckFromRanchToCannery, getProgress(ranch2CanneryPath, trucks[3]['distance'] + speedOfTruckFromRanchToCannery) );
+    trucks.forEach(truck => {
+      const speed = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+      const distance = truck.distance + speed;
+      updateTruck(truck.truckNumber, distance, getProgress(getPath(truck.fromAddr, truck.toAddr), distance));
+    });
   }, [time]);
 
   const [currentTruck, setCurrentTruck] = useState({
@@ -187,32 +217,23 @@ function Map() {
     console.log(trucks[index]);
   }, []);
 
-  const markers = [];
-  markers.push(
-    <Maps.Marker
-      key={0}
-      position={getPositionAt(ranch2FarmPath, trucks[0]['distance'])}
-      onClick={ () => handleClicked(0) }
-    />
-  );
-  markers.push(
-    <Maps.Marker
-      key={1}
-      position={getPositionAt(farm2RanchPath, trucks[1]['distance'])}
-      onClick={ () => handleClicked(1) }
-    />);
-  markers.push(
-    <Maps.Marker
-      key={2}
-      position={getPositionAt(farm2CanneryPath, trucks[2]['distance'])}
-      onClick={ () => handleClicked(2) }
-    />);
-  markers.push(
-    <Maps.Marker
-      key={3}
-      position={getPositionAt(ranch2CanneryPath, trucks[3]['distance'])}
-      onClick={ () => handleClicked(3) }
-    />);
+  const [markersV2, setMarkersV2] = useState([]);
+  const updateMarkers = useCallback(() => {
+    const markers = [];
+    trucks.map((truck, index) => {
+      markers.push(
+        <Maps.Marker
+          key={truck['truckNumber']}
+          position={getPositionAt(getPath(truck['fromAddr'], truck['toAddr']), truck['distance'])}
+          onClick={ () => handleClicked(index) }
+        />
+      );
+    });
+    setMarkersV2(markers);
+  }, []);
+  useEffect(() => {
+    updateMarkers();
+  }, [trucks]);
 
   return (
     <div>
@@ -222,7 +243,7 @@ function Map() {
         defaultCenter={defaultCenter}
         defaultZoom={defaultZoom}
       >
-        { markers }
+        { markersV2 }
         <Maps.Popup position={ranchPosition}>
           Ranch
         </Maps.Popup>

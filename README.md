@@ -1,10 +1,10 @@
 <h1 align="center"> V-Guard applied in SCM (Supply Chain Management) system. </h1>
 
-// todo
+Contributors: Dixi Yao, Kai Shen, Xiaochong Wei
 
 ## Introduction
 
-// todo
+We propose a solution for tracking goods and services in supply chain system by using V-Guard, which is designed for V2X network and can fit well for supply chain since trucks are main transportation power of the system.
 
 ## Features
 
@@ -12,7 +12,7 @@
 We use google map to visualize the viechle's location and route, also mark the location of each participant in the supply chain.
 ![Viechle visualization](./docs/map-example.gif)
 When you click the marker of a viechle, you can see the detail information of the viechle at the bottom of the page, including:
-- Truck number: the index of the truck.
+- Cargo ID: the index of the cargo.
 - Cargo type: the type of the cargo the truck is carrying.
 - Cargo amount: the amount of the cargo the truck is carrying.
 - From: the location where the truck is from.
@@ -20,7 +20,7 @@ When you click the marker of a viechle, you can see the detail information of th
 - Progress: the progress of the truck's route.
 - Is booked: whether the truck is booked for the next shippment.
 
-This can help the participants to know better the location of the truck and the progress of the truck's route.
+This can help the participants to know better the location of the truck and the progress of the truck's route. 
 
 ### Database backend
 We provide a database backend in the infrastructure layer to support the data collection for V-Guard. The database is developed on the basis of the ```sqlite3```. It is developed in the ```dpapi.py``` and the whole database is named ```vguard.db```. 

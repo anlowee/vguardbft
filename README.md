@@ -44,7 +44,11 @@ We also support the database by adding a Flask server so that the frontend can i
 
 ## Quick Start
 
-// todo
+For the backend, you can follow these steps to run the database:
+- create a new conda environment: `conda create --name ece1770 python=3.9`
+- activate the environment: `conda activate ece1770`
+- install required packages: `pip install -r requirements.txt`
+
 
 For frontend, you can follow these steps to run the project:
 - Enter the frontend directory: `cd web`

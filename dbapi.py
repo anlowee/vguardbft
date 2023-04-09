@@ -65,6 +65,8 @@ def handle_delete_cargo(data):
         )
 
         # emit the updated list of items to the UI
+        items = db.query_all()
+        print(items)
         socketio.emit("query_all_result", {"result": "success", "data": items})
 
         return {"result": "success"}

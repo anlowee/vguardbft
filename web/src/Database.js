@@ -57,9 +57,10 @@ function Database() {
     };
 
 
-    const handleDeleteItem = () => {
+    const handleDeleteItem = (event) => {
+        event.preventDefault();
         // emit the "delete_cargo" event with the ID of the item to be deleted
-        socket.emit("delete_cargo", { ID: deleteID });
+        socket.emit("delete_cargo", { ID: event.target.deleteID.value });
 
         // Reset the input box
         setDeleteID("");
@@ -157,7 +158,7 @@ function Database() {
             </div >
             <div className="left-column">
                 <h2>Delete Item</h2>
-                <form className="delete-form">
+                <form onSubmit={handleDeleteItem} className="form">
                     <div className="form-group form-half">
                         <label htmlFor="deleteID">Cargo ID:</label>
                         <input type="text" name="deleteID" maxLength="8" placeholder="Cargo ID" required />

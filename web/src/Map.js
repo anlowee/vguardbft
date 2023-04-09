@@ -162,25 +162,17 @@ function getPath(fromAddr, toAddr) {
   }
 }
 
-export const TruckState = () => {
-  const [trucks, setTrucks] = useState(defaultTruckInfo);
-
-  return {
-    trucks,
-    setTrucks,
-  };
-};
-
-function Map() {
-  const { trucks, setTrucks } = TruckState();
+function Map( props ) {
+  const { trucks, setTrucks } = props;
   const updateTruck = useCallback((truckNumber, distance, progress) => {
+    console.log('updateTruck', truckNumber, distance, progress);
     setTrucks(trucks => {
       const truck = trucks.find(truck => truck.truckNumber === truckNumber);
       truck.distance = distance;
       truck.progress = (progress * 100).toFixed(2) + '%';
       return [...trucks];
     });
-  }, []);
+  }, [trucks]);
 
   const [time, setTime] = useState(0);
   const increaseTime = useCallback(() => {
@@ -194,6 +186,7 @@ function Map() {
     };
   }, [increaseTime]);
 
+  // simulating moving trucks
   useEffect(() => {
     trucks.forEach(truck => {
       const speed = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
@@ -230,10 +223,16 @@ function Map() {
       );
     });
     setMarkersV2(markers);
-  }, []);
+  }, [markersV2, trucks]);
   useEffect(() => {
     updateMarkers();
   }, [trucks]);
+
+  // const debugHandler = useCallback(() => {
+  //   console.log("clicked!");
+  //   setCount(count + 1);
+  //   updateCount(count);
+  // }, [count]);
 
   return (
     <div>
@@ -259,6 +258,7 @@ function Map() {
       </Maps>
       <div style={{height: '10vh'}}>
         <b>Truck #:</b> {currentTruck.truckNumber}&nbsp;<b>Cargo Type:</b> {currentTruck.cargoType}&nbsp;<b>Cargo Amount:</b> {currentTruck.cargoAmount}&nbsp;<b>From:</b> {currentTruck.fromAddr}&nbsp;<b>To:</b> {currentTruck.toAddr}&nbsp;<b>Progress:</b> {currentTruck.progress}&nbsp;<b>Is booked:</b> {currentTruck.isBooked ? 'Yes' : 'No'}
+        {/*<br /><h2 onClick={ () => debugHandler() }>Debug Add Item</h2>*/}
       </div>
     </div>
   );

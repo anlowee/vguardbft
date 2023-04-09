@@ -24,6 +24,9 @@ When you click the marker of a viechle, you can see the detail information of th
 
 This can help the participants to know better the location of the truck and the progress of the truck's route. 
 
+### Database dashboard
+![Database dashboard](./docs/database.png)
+
 ### Database backend
 We provide a database backend in the infrastructure layer to support the data collection for V-Guard. The database is developed on the basis of the ```sqlite3```. It is developed in the ```dpapi.py``` and the whole database is named ```vguard.db```. 
 

@@ -58,9 +58,9 @@ function Database(props) {
                 cargoAmount: newItem.CargoAmount,
                 fromAddr: newItem.FromAddr,
                 toAddr: newItem.ToAddr,
-                boothIndex: -1,
-                distance: 0,
-                progress: '0%',
+                // boothIndex: -1,
+                // distance: 0,
+                // progress: '0%',
                 isBooked: newItem.IsBooked,
             }
             return [...trucks, truck];
@@ -118,8 +118,8 @@ function Database(props) {
                                     {/* <td>{item[5]}</td>
                                     <td>{item[6]}</td>
                                     <td>{item[7]}</td> */}
-                                    <td>{item[8]}</td>
-                                    <td>{item[9]}</td>
+                                    <td>{item[5]}</td>
+                                    <td>{item[6]}</td>
                                 </tr>
                             ))}
                         </tbody>

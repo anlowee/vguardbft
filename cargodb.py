@@ -15,23 +15,23 @@ class CargoDB:
         c.execute(
             """
             CREATE TABLE IF NOT EXISTS cargo
-            ([ID] TEXT, [CargoType] TEXT, [CargoAmount] INTEGER, [FromAddr] TEXT, [ToAddr] TEXT, [BoothIndex] INTEGER, [Distance] TEXT, [Progress] TEXT, [ETA] TEXT, [IsBooked] TEXT,
+            ([ID] TEXT, [CargoType] TEXT, [CargoAmount] INTEGER, [FromAddr] TEXT, [ToAddr] TEXT, [ETA] TEXT, [IsBooked] TEXT,
             PRIMARY KEY(ID))
             """
         )
         conn.commit()
         try:
             c.execute(
-                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,BoothIndex,Distance,Progress,ETA,IsBooked) VALUES ('0','Manure',3000,'Ranch','Farm',1,'0','0','{today}','False')"
+                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('0','Manure',3000,'Ranch','Farm','{today}','True')"
             )
             c.execute(
-                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,BoothIndex,Distance,Progress,ETA,IsBooked) VALUES ('1','Corn',10000,'Farm','Ranch',2,'0','0','{today}','False')"
+                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('1','Corn',10000,'Farm','Ranch','{today}','False')"
             )
             c.execute(
-                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,BoothIndex,Distance,Progress,ETA,IsBooked) VALUES ('2','Pineapple',5000,'Farm','Cannery',3,'0','0','{today}','False')"
+                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('2','Pineapple',5000,'Farm','Cannery','{today}','False')"
             )
             c.execute(
-                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,BoothIndex,Distance,Progress,ETA,IsBooked) VALUES ('3','Meat',2000,'Ranch','Cannery',4,'0','0','{today}','False')"
+                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('3','Meat',2000,'Ranch','Cannery','{today}','False')"
             )
             conn.commit()
         except:
@@ -198,9 +198,6 @@ class TransactoinDB:
             CargoAmount,
             FromAddr,
             ToAddr,
-            BoothIndex,
-            Distance,
-            Progress,
             ETA,
             IsBooked,
         )

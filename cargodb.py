@@ -22,7 +22,7 @@ class CargoDB:
         conn.commit()
         try:
             c.execute(
-                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('0','Manure',3000,'Ranch','Farm','{today}','True')"
+                f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('0','Manure',3000,'Ranch','Farm','{today}','False')"
             )
             c.execute(
                 f"INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('1','Corn',10000,'Farm','Ranch','{today}','False')"

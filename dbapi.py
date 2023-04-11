@@ -16,9 +16,6 @@ def handle_add_cargo(data):
             data["CargoAmount"],
             data["FromAddr"],
             data["ToAddr"],
-            data["BoothIndex"],
-            data["Distance"],
-            data["Progress"],
             data["ETA"],
             data["IsBooked"],
         )
@@ -46,9 +43,6 @@ def handle_modify_cargo(data):
             data["CargoAmount"],
             data["FromAddr"],
             data["ToAddr"],
-            data["BoothIndex"],
-            data["Distance"],
-            data["Progress"],
             data["ETA"],
             data["IsBooked"],
         )

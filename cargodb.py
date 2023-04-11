@@ -47,9 +47,6 @@ class CargoDB:
         CargoAmount: int = 0,
         FromAddr: str = "",
         ToAddr: str = "",
-        BoothIndex: int = 0,
-        Distance: float = 0.0,
-        Progress: float = 0.0,
         ETA: str = today,
         IsBooked: bool = False,
     ):
@@ -61,7 +58,7 @@ class CargoDB:
         except:
             print("Illegal input of the cargo amount!")
             raise ValueError
-        sentence = f" INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,BoothIndex,Distance,Progress,ETA,IsBooked) VALUES ('{ID}','{CargoType}',{CargoAmount},'{FromAddr}','{ToAddr}',{str(BoothIndex)},'{str(Distance)}','{str(Progress)}','{ETA}','{str(IsBooked)}')"
+        sentence = f" INSERT INTO cargo (ID,CargoType, CargoAmount,FromAddr,ToAddr,ETA,IsBooked) VALUES ('{ID}','{CargoType}',{CargoAmount},'{FromAddr}','{ToAddr}','{ETA}','{str(IsBooked)}')"
         try:
             c.execute(sentence)
             conn.commit()
@@ -78,9 +75,6 @@ class CargoDB:
         CargoAmount=None,
         FromAddr=None,
         ToAddr=None,
-        BoothIndex=None,
-        Distance=None,
-        Progress=None,
         ETA=None,
         IsBooked=None,
     ):
@@ -90,20 +84,14 @@ class CargoDB:
         CargoAmount = result[2] if CargoAmount is None else CargoAmount
         FromAddr = result[3] if FromAddr is None else FromAddr
         ToAddr = result[4] if ToAddr is None else ToAddr
-        BoothIndex = result[5] if BoothIndex is None else BoothIndex
-        Distance = result[5] if Distance is None else Distance
-        Progress = result[5] if Progress is None else Progress
-        ETA = result[8] if ETA is None else ETA
-        IsBooked = result[9] if IsBooked is None else IsBooked
+        ETA = result[5] if ETA is None else ETA
+        IsBooked = result[6] if IsBooked is None else IsBooked
         self.save_entity(
             ID,
             CargoType,
             CargoAmount,
             FromAddr,
             ToAddr,
-            BoothIndex,
-            Distance,
-            Progress,
             ETA,
             IsBooked,
         )
